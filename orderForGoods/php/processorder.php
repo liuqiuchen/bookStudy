@@ -7,16 +7,6 @@
     <h2>
         Order Results <br/>
         <?php
-            $DOCUMENT_ROOT = $_SERVER['DOCUMENT_ROOT']; // 相对路径
-            //echo $DOCUMENT_ROOT; //D:/wamp/www
-            
-            $fp = @fopen("$DOCUMENT_ROOT/bookStudy/orderForGoods/temp/orders.txt", 'ab');
-            if(!$fp) {
-                echo "<p><b>Your order could not be processed at this time."
-                . "Please try again later.</b></p></body></html>";
-                exit;
-            }
-        
             $tireqty = $_POST['tireqty'];
             $oilqty = $_POST['oilqty'];
             $sparkqty = $_POST['sparkqty'];
@@ -59,39 +49,75 @@
             }
             
             echo 'Shipping Address: '. $shippingAddress . '<br/>';
-            
-            /*switch ($find) {
-            	case 'a':
-            		echo '<p>Regular customer.</p>';
-            		break;
-            	case 'b':
-            		echo '<p>Customer referred by TV advert.</p>';
-            		break;
-            	case 'c':
-            		echo '<p>Customer referred by phone directory.</p>';
-            		break;
-            	case 'd':
-            		echo '<p>Customer referred by word of mouth.</p>'; 
-            	default:
-            		echo '<p>We do not know how this customer found us.</p>';
-            }
-            
-            $totalmount = $tireqty * TIREPRICE * $discount
-                    + $oilqty * OILPRICE
-                    + $sparkqty * SPARKPRICE;   
-            */
-                
-            
-//            echo 'Subtotal: $'. number_format($totalmount, 2). '<br/>';
 
-//            echo '<p>Your order is as follows: </p>';
-            
-//            echo 'isset($tireqty): '.isset($tireqty). '<br/>'; // 1
-//            echo 'isset($nothere): '.isset($nothere). '<br/>';
-//            echo 'empty($tireqry): '.empty($tireqty). '<br/>';
-//            echo 'empty($nothere): '.empty($nothere). '<br/>'; // 1
+            $date = Date("jS F Y");
+            $outputString = $date. "\t" .$tireqty. "tires \t" . $oilqty . "oil\t"
+                . $sparkqty . "spark plugs\t\$ " . $totalmount . "\t" . $shippingAddress. "\n";
+
+            $DOCUMENT_ROOT = $_SERVER['DOCUMENT_ROOT'];
+            $filePath = "$DOCUMENT_ROOT/bookStudy/orderForGoods/temp/orders.txt";
+
+            if(file_exists($filePath)) $fp = fopen($filePath, 'ab');
+            else echo "文件不存在";
+
+            flock($fp, LOCK_EX); // 写操作锁定
+
+            if(!$fp) {
+                echo "<p><b>Your order could not be processed at this time.Please
+                try again later.</b></p>";
+                exit;
+            }
+
+            fwrite($fp, $outputString, strlen($outputString));
+
+            flock($fp, LOCK_UN); // 释放已有的锁定
+            fclose($fp);
         ?>
     </h2>
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
