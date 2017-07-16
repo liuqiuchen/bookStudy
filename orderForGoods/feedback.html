@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Feedback</title>
+</head>
+<body>
+
+<h1>Customer Feedback</h1>
+<p>Please tell us what you think.</p>
+
+<form method="post" action="./php/processfeedback.php">
+    <p>Your name:</p>
+    <p><input type="text" name="name" size="50"></p>
+    <p>Your email address:</p>
+    <p><input type="text" name="email" size="50"></p>
+    <p>Your feedback:</p>
+    <p><textarea name="feedback" id="" cols="50" rows="10"></textarea></p>
+    <p>
+        <input type="submit" value="Send feedback">
+    </p>
+</form>
+
+</body>
+</html>
