@@ -4,6 +4,9 @@ $name = trim($_POST['name']);
 $email = trim($_POST['email']);
 $feedback = trim($_POST['feedback']);
 
+$offColor = ['fuck', 'sex'];
+$feedback = str_replace($offColor, '%!@', $feedback);
+
 $toAddress = '2016968116@qq.com';
 $subject = 'Feedback from web site';
 $mailContent = "Customer name: $name\n
