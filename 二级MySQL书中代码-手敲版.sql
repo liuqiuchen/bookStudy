@@ -122,8 +122,6 @@ update tbl1, tbl2
 set tbl1.name = '李明名', tbl2.name = '王伟'
 where tbl1.id = tbl2.id;
 
-###############################看到这儿###########################################
-
 select student_name, student_contact as '联系方式' from students;
 
 # 计算列值
@@ -157,7 +155,7 @@ select * from students where student_name regexp '[园]{2}';
 select student_major, count(*) as '总人数' from students
 group by student_major
 having count(*) >= 2;
-
+ 
 select student_major, count(*) as '总人数' from students
 group by student_major
 having 总人数 >= 2;
