@@ -1,5 +1,5 @@
 # 书中代码，最好用Notepad++打开，关键字高亮
- 
+
 # 创建数据库
 create database mytest;
 
@@ -75,9 +75,40 @@ insert into students
 VALUES
 (1320, '王丽', '1', 22, '计算机专业', '138xxxxxx');
 
+insert into mytest.students
+(student_name, student_sex, student_age, student_major)
+values
+('李明', DEFAULT, 22, '数学专业');
 
 insert into students
-set student_name = '李明',student_sex = default, student_age=22,student_major='数学';
+set student_name = '王明',student_sex = default, student_age=22,student_major='数学';
+
+insert into students
+(student_name, student_sex, student_age, student_major)
+values
+('张三', '1', 24, '化学专业'),
+('王五', '1', 23, '数学专业');
+
+insert into students
+(student_name, student_sex, student_age, student_major)
+select student_name, student_sex, student_age, student_major 
+from mytest.students_copy;
+
+replace into mytest.students
+values
+(1320, '李芳', '1', '26', '会计专业', '137xxxxxxxx');
+
+delete from students
+where student_name='王丽';
+
+# delete语句从多个表中删除数据
+delete tbl1, tbl2 from tbl1, tbl2, tbl3
+where tbl1.id = tbl2.id and tbl2.id = tbl3.id;
+
+# truncate删除表中所有数据(且数据无法恢复)，
+# 执行速度比delete语句更快，truncate先删除原来的表再重新创建一个表，而不是
+# 逐行删除表中的数据
+truncate table students;
 
  update students
     -> set student_contact = '139xxxxxx'
@@ -90,6 +121,8 @@ update students
 update tbl1, tbl2
 set tbl1.name = '李明名', tbl2.name = '王伟'
 where tbl1.id = tbl2.id;
+
+###############################看到这儿###########################################
 
 select student_name, student_contact as '联系方式' from students;
 
@@ -341,6 +374,27 @@ call sp_count(@rows);
 select @rows;	
 	
 drop procedure if exists update_name;	
+
+# 存储过程/函数与游标
+drop procedure if exists useCursor;
+delimiter ??
+create procedure useCursor()
+begin
+declare tmpName varchar(20) default '';
+declare allName varchar(255) default '';
+declare cur1 cursor for select name from test.level;
+# 循环使用变量tmpname，为null跳出循环。
+declare continue handler for sqlstate '02000' set tmpName = null; 
+open cur1;
+fetch cur1 into tmpName;
+while(tmpName is not null) do
+set tmpName = concat(tmpName, ';');
+set allName = concat(allName, tmpName);
+fetch cur1 into tmpName;
+end while;
+close cur1;
+select allName;
+end??
 	
 # 存储函数
 delimiter ??
@@ -463,4 +517,3 @@ mysqlbinlog my_log.000001 | mysql -u root -p
 
 # 删除二进制文件
 purge master logs to 'my_log.000001';
-
