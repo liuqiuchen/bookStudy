@@ -125,18 +125,15 @@ where tbl1.id = tbl2.id;
 select student_name, student_contact as '联系方式' from students;
 
 # 计算列值
-mysql> select student_name,student_id,student_id+100 from students;
+select student_name,student_id,student_id+100 from students;
 
 # 替换查询结果中的数据
-mysql> select student_name,
-    -> case
-    -> when student_sex = '0' then '男'
-    -> else '女'
-    -> end as '性别'
-    -> from students;
-
-# 交叉连接
-select　* from a cross b;
+select student_name,
+case
+when student_sex = '0' then '男'
+else '女'
+end as '性别'
+from students;
 
 # 内连接
 select * from a inner join b on a.id > b. id;
@@ -155,61 +152,69 @@ select * from students where student_name regexp '[园]{2}';
 select student_major, count(*) as '总人数' from students
 group by student_major
 having count(*) >= 2;
- 
+
 select student_major, count(*) as '总人数' from students
 group by student_major
 having 总人数 >= 2;
 
-# 查找从第三个学生开始的一个学生的信息
+# 查找从第二个学生（包括第二个学生）开始的三个学生的信息
 select * from students
-    -> limit 2, 1;
+limit 1, 3;
 
 # 和前面的等价
 select * from students
-    -> limit 1 offset 2;
-	
+limit 3 offset 1;
+
+# 联合查询	
 select student_name, student_major,student_sex from students where student_major = '物理专业'
-    -> union
-    -> select student_name, student_major,student_sex from students where student_sex = '1';
+union
+select student_name, student_major,student_sex from students where student_sex = '1';
 
 # 索引	
 create index index_students
-    -> on students(student_name(3) ASC);
+on students(student_name(3) ASC);
 
+# 使用BTREE的索引类型创建索引
 create index index_stud
-    -> on students(student_id, student_name)
-    -> using btree;	
-	
-create table course
-    -> (
-    -> course_id int not null,
-    -> course_name char(50) not null,
-    -> course_place char(50) null,
-    -> course_teacher char(50) null,
-    -> primary key(course_id),
-    -> index index_course(course_name)
-    -> );	
+on students(student_id, student_name)
+using btree;	
 
+# 创建表的同时创建索引	
+create table course
+(
+course_id int not null,
+course_name char(50) not null,
+course_place char(50) null,
+course_teacher char(50) null,
+primary key(course_id),
+index index_course(course_name)
+);	
+
+# 修改表的时候添加索引
 alter table course
-    -> add index index_place(course_place);	
+add index index_place(course_place);	
 	
+# 删除索引要用on指定表名
 drop index index_place on course;	
 
 #视图	
 create or replace view students_view
-    -> as
-    -> select student_name, student_major,student_age,student_sex
-    -> from students
-    -> where student_sex = '0'
-    -> with check option;	
+as
+select student_name, student_major,student_age,student_sex
+from students
+where student_sex = '0'
+with check option;	
 	
-alter view students_view as
+alter view students_view 
+as
 select * from students
 with check option;
 
 show create view students_view;
 	
 drop view students_view;	
+
+##################################看到这#######################################
 	
 # 参照完整性	
 create table grades
