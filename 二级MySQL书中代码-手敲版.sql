@@ -213,8 +213,6 @@ with check option;
 show create view students_view;
 	
 drop view students_view;	
-
-##################################看到这#######################################
 	
 # 参照完整性	
 create table grades
