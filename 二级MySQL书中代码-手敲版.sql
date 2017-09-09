@@ -224,7 +224,8 @@ grade_time int not null,
 student_id int not null,
 primary key(grade_id),
 foreign key(student_id) references students(student_id)
-on delete restrict on update restrict
+on delete restrict 
+on update restrict
 );	
 	
 # 用户定义完整性
@@ -247,7 +248,7 @@ grade_score int not null,
 grade_time int not null,
 student_id int not null,
 primary key(grade_id),
-check(grade_score > 0 and grade_score <= 0)
+check(grade_score > 0 and grade_score <= 100)
 );	
 	
 # 命名完整性约束	
@@ -259,7 +260,9 @@ grade_score int not null,
 grade_time int not null,
 student_id int not null,
 constraint PRIMARY_KEY_GRADES primary key(grade_id),
-constraint FOREIGN_KEY_GRADES foreign key(student_id) references students(student_id) on delete restrict on update restrict
+constraint FOREIGN_KEY_GRADES foreign key(student_id) references students(student_id) 
+on delete restrict 
+on update restrict
 );		
 	
 # 表维护语句
@@ -272,6 +275,7 @@ checksum table students;
 
 # 检查一个或多个表是否有错误
 check table students, grades;
+
 # 查阅数据库mytest中表students的相关检查信息
 select table_name, check_time from information_schema
 where table_name = 'students'
@@ -288,8 +292,8 @@ on students
 for each row set @str = 'add a new student';
 
 insert into students
-    -> values
-    -> (NULL, '王媛', '1', '22', '生物专业', NULL);
+values
+(NULL, '王媛', '1', '22', '生物专业', NULL);
 	
 # 查看用户变量str
 select @str;	
@@ -298,7 +302,7 @@ select @str;
 show triggers;
 
 # 删除触发器
-drop trigger if exists studen_insert;
+drop trigger if exists student_insert;
 
 # insert 触发器 NEW虚拟表
 create trigger mytest.students_insert
@@ -332,9 +336,9 @@ create event if not exists event_add
     -> values
     -> (NULL, '王维', '0', '24', '自动化专业', NULL);
 
-# 关闭事件
+# 临时关闭事件
 alter event event_add disable;
-# 开启关闭的事件
+# 再次开启关闭的事件
 alter event event_add enable;	
 	
 alter event event_add rename to event_new;	
@@ -370,21 +374,23 @@ begin
 select count(*) into rows from students;
 end ??	
 	
-delimiter ;
 call sp_count(@rows);	
 select @rows;	
 	
 drop procedure if exists update_name;	
 
 # 存储过程/函数与游标
+use test; # 切换test数据库
+
 drop procedure if exists useCursor;
+
 delimiter ??
 create procedure useCursor()
 begin
 declare tmpName varchar(20) default '';
 declare allName varchar(255) default '';
 declare cur1 cursor for select name from test.level;
-# 循环使用变量tmpname，为null跳出循环。
+# 循环使用变量tmpName，为null跳出循环。
 declare continue handler for sqlstate '02000' set tmpName = null; 
 open cur1;
 fetch cur1 into tmpName;
