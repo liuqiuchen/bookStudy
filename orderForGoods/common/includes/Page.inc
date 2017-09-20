@@ -40,55 +40,55 @@ class Page
     }
     public function DisplayStyles()
     {
-?>
-    <style>
-        h1 {
-            color: white;
-            font-size: 24pt;
-            text-align: center;
-            font-family: arial, sans-serif;
-        }
-        .menu {
-            color: white;
-            font-size: 12pt;
-            text-align: center;
-            font-family: arial, sans-serif;
-            font-weight: bold;
-        }
-        td {
-            background: black;
-        }
-        p {
-            color: black;
-            font-size: 12pt;
-            text-align: justify;
-            font-family: arial, sans-serif;
-        }
-        p.foot {
-            color: black;
-            font-size: 9pt;
-            text-align: center;
-            font-family: arial, sans-serif;
-            font-weight: bold;
-        }
-        a:link, a:visited, a:active {
-            color: white;
-        }
-    </style>
-<?php
+        ?>
+        <style>
+            h1 {
+                color: white;
+                font-size: 24pt;
+                text-align: center;
+                font-family: arial, sans-serif;
+            }
+            .menu {
+                color: white;
+                font-size: 12pt;
+                text-align: center;
+                font-family: arial, sans-serif;
+                font-weight: bold;
+            }
+            td {
+                background: black;
+            }
+            p {
+                color: black;
+                font-size: 12pt;
+                text-align: justify;
+                font-family: arial, sans-serif;
+            }
+            p.foot {
+                color: black;
+                font-size: 9pt;
+                text-align: center;
+                font-family: arial, sans-serif;
+                font-weight: bold;
+            }
+            a:link, a:visited, a:active {
+                color: white;
+            }
+        </style>
+        <?php
     }
 
     public function DisplayHeader()
     {
-?>
-    <table width="100%" cellpadding="12" cellspacing="0" border="0">
-        <tr bgcolor="black">
-            <td>
-                <h1>TLA Consulting Pty Ltd</h1>
-            </td>
-        </tr>
-    </table>
-<?php
+        ?>
+        <table width="100%" cellpadding="12" cellspacing="0" border="0">
+            <tr bgcolor="black">
+                <td>
+                    <h1>TLA Consulting Pty Ltd</h1>
+                </td>
+            </tr>
+        </table>
+        <?php
     }
 }
 
