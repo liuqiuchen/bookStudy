@@ -1,5 +1,5 @@
 <?php
-require('../common/includes/Page.inc');
+require_once('../common/includes/Page.inc');
 
 $home_page = new Page();
 $home_page->content = "<p>Welcome to the home of TLA Consulting.
