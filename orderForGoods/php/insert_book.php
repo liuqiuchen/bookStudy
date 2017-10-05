@@ -32,16 +32,10 @@ if(mysqli_connect_errno()) {
     exit;
 }
 
-$query = "insert into books values 
-('".$is_bn."', '".$author."', '".$title."', '".$price."')";
-
-$result = $db->query($query);
-
-if($result) {
-    echo $db->affected_rows.' book inserted into database.';
-} else {
-    echo 'An error has occurred.The item was not added.';
-}
-
-$db->close();
+$query = "insert into books values(?, ?, ?, ?)";
+$stmt = $db->prepare($query);
+$stmt->bind_param('sssd', $is_bn, $author, $title, $price);
+$stmt->execute();
+echo $stmt->affected_rows.' book inserted into database.';
+$stmt->close();
 
