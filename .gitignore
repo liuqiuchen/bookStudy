@@ -1,2 +1,5 @@
 *.xml
 *.iml
+.idea/
+orderForGoods/.idea/
+orderForGoods/direct_visit/test.php
