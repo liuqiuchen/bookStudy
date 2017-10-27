@@ -7,6 +7,8 @@
 <body>
 <h1>Book-O-Rama Book Entry Results</h1>
 <?php
+require_once('../common/db_references.php');
+
 $is_bn = $_POST['isbn'];
 $author = $_POST['author'];
 $title = $_POST['title'];
@@ -25,7 +27,7 @@ if(!get_magic_quotes_gpc()) {
     $price = doubleval($price);
 }
 
-@ $db = new mysqli('localhost', 'root', '', 'books');
+@ $db = new mysqli($db_server, $db_user_name, $db_password, $db_name);
 
 if(mysqli_connect_errno()) {
     echo 'Error: Could not connect to database.Please try again later.';
