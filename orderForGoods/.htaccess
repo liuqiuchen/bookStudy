@@ -1,0 +1,6 @@
+ErrorDocument: 401 /front/html/rejection.html
+AuthUserFile /home/book/.htpasn
+AuthGroupFile /dev/null
+AuthName 'Realm-Name'
+AuthType Basic
+require valid-user
