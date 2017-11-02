@@ -39,9 +39,14 @@ if($_FILES['user_file']['type'] != 'text/plain') {
     exit;
 }
 
-// $_FILES[‘user_file’][‘name’] 用户系统中的文件名称
+// 解决中文名称乱码
+// $_FILES['user_file']['name'] 用户系统中的文件名称
+$name = $_FILES['user_file']['name'];
+$name=iconv("UTF-8","gb2312", $name);
+
 // 放到我们想移动到的位置
-$upFile = '../../../../uploads/'.$_FILES['user_file']['name'];
+//$upFile = 'D:/wamp64/uploads'.$_FILES['user_file']['name'];
+$upFile = '../../../../uploads/'.$name;
 
 // $_FILES['user_file']['tmp_name'] 文件在Web服务器上临时存储的位置
 if(is_uploaded_file($_FILES['user_file']['tmp_name']))
@@ -50,6 +55,7 @@ if(is_uploaded_file($_FILES['user_file']['tmp_name']))
         echo 'Problem: Could not move file to destination directory.';
         exit;
     }
+    $name = iconv('gb2312', 'UTF-8', $name);
 } else {
     echo 'Problem: Possible file upload attack. Filename: ';
     echo $_FILES['user_file']['name'];
